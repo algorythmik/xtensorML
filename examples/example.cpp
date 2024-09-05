@@ -5,7 +5,6 @@ int main() {
     // Create a 2x2 matrix with some values
     xt::xarray<double> mat = {{1.0, 2.0}, {3.0, 4.0}};
 
-    // Use the print utility from your library
     xtensor_ml::matrix::print_matrix(mat);
     return 0;
 }

@@ -5,8 +5,7 @@
 namespace xtensor_ml{
 namespace core {
 
-// Define common types for consistency and readability
-using Index = std::size_t;    // Alias for indices, makes code clearer
+using Index = std::size_t;
 
 // Add more core utility functions or constants as needed in the future
 

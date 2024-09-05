@@ -1,0 +1,54 @@
+# Build directories
+/build/
+/out/
+/bin/
+/lib/
+
+
+# Compiled object files
+*.o
+*.obj
+*.lo
+*.la
+*.al
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Dependency directories
+/deps/
+/_external/
+
+# IDE files (you can uncomment the lines for your specific IDE)
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Xcode
+*.xcworkspace
+*.xcuserstate
+*.xcuserdata
+
+# Eclipse
+.project
+.cproject
+
+# JetBrains IDEs
+.idea/
+
+# Log files
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous
+*.swp
+*.swo
+*.tmp
+*.bak
