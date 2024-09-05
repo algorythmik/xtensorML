@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(xtensor_ml)
 
 # FetchContent module to download xtensor
@@ -22,8 +24,15 @@ FetchContent_MakeAvailable(xtensor)
 add_library(xtensor_ml
     src/core.cpp
     src/models/linear/linear_regression.cpp
+    src/matrix.cpp
 )
 
 # Include directories for xtensor_ml
 target_include_directories(xtensor_ml PUBLIC include)
 target_link_libraries(xtensor_ml xtensor xtl)
+
+add_executable(example
+   examples/example.cpp
+)
+
+target_link_libraries(example xtensor_ml)
