@@ -20,6 +20,17 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(xtensor)
 
+# Fetch xtensor-blas
+FetchContent_Declare(
+  xtensor_blas
+  GIT_REPOSITORY https://github.com/xtensor-stack/xtensor-blas.git
+  GIT_TAG 0.21.0 
+)
+FetchContent_MakeAvailable(xtensor_blas)
+
+# Find BLAS library
+find_package(BLAS REQUIRED)
+
 # Add your library
 add_library(xtensor_ml
     src/core.cpp
