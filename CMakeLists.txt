@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(xtensor_ml)
 # FetchContent module to download xtensor
 include(FetchContent)
@@ -23,7 +24,7 @@ FetchContent_MakeAvailable(xtensor)
 FetchContent_Declare(
   xtensor_blas
   GIT_REPOSITORY https://github.com/xtensor-stack/xtensor-blas.git
-  GIT_TAG 0.21.0 
+  GIT_TAG 0.21.0
 )
 FetchContent_MakeAvailable(xtensor_blas)
 
