@@ -4,13 +4,13 @@
 
 namespace xtensor_ml {
 namespace linear_model {
-class LinearRregression {
+class LinearRegression {
     public:
         // constructor
-        explicit LinearRregression();
+        explicit LinearRegression();
 
         // fit method to train the model
-        LinearRregression& fit(
+        LinearRegression& fit(
             const xt::xarray<double>& X,
             const xt::xarray<double>& y
         );
