@@ -7,7 +7,7 @@ namespace linear_model {
 class LinearRegression {
     public:
         // constructor
-        explicit LinearRegression();
+        explicit LinearRegression(bool fit_intercept=true);
 
         // fit method to train the model
         LinearRegression& fit(
@@ -18,6 +18,7 @@ class LinearRegression {
           xt::xarray<double> predict(const xt::xarray<double>& X) const;
 
     private:
+        bool fit_intercept_;
         xt::xarray<double> beta_;
         bool is_fit_;
 
