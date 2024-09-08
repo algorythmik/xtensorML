@@ -1,5 +1,6 @@
 #pragma once
 
+#include "xtensor/xtensor_forward.hpp"
 #include <xtensor/xarray.hpp>
 
 namespace xtensor_ml {
@@ -21,6 +22,7 @@ class LinearRegression {
         bool fit_intercept_;
         xt::xarray<double> beta_;
         bool is_fit_;
+        xt::xarray<double> update_(const xt::xarray<double>& X) const;
 
 };
 }
