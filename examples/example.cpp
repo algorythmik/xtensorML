@@ -16,6 +16,7 @@ int main() {
     auto y_pred = model.predict(X_new);
     std::cout <<"Preicted values:" <<std::endl;
     std::cout << y_pred <<std::endl;
+    std::cout << "Estimated coefficients are: " << model.get_beta()<< std::endl;
 
     return 0;
 }

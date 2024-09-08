@@ -48,5 +48,8 @@ xt::xarray<double> LinearRegression::update_(const xt::xarray<double>& X) const 
         return X;
     }
 }
+xt::xarray<double> LinearRegression::get_beta() const {
+       return beta_;
+   }
 } // namespace linear_model
 } // namespace xtensor_ml

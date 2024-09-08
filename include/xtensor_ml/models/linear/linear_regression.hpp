@@ -17,6 +17,7 @@ class LinearRegression {
         );
 
           xt::xarray<double> predict(const xt::xarray<double>& X) const;
+          xt::xarray<double> get_beta() const;
 
     private:
         bool fit_intercept_;
