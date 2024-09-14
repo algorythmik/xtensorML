@@ -30,8 +30,10 @@ FetchContent_MakeAvailable(xtensor_blas)
 
 # Find BLAS library
 find_package(BLAS REQUIRED)
+# Find BLAS and LAPACK libraries
+find_package(LAPACK REQUIRED)
 
-# Add your library
+# Add xtensor library
 add_library(xtensor_ml
     src/core.cpp
     src/models/linear/linear_regression.cpp
@@ -52,6 +54,7 @@ target_link_libraries(
     xtl
     xtensor-blas
     ${BLAS_LIBRARIES}
+    ${LAPACK_LIBRARIES}
 )
 
 add_executable(example
