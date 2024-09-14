@@ -63,13 +63,13 @@ jobs:
       - name: Install MSYS2 and LAPACK on Windows
         if: matrix.os == 'windows-latest'
         run: |
-            # Install MSYS2
-            choco install msys2 --params '/NoShortcuts' -y
-            # Add MSYS2 to PATH
-            echo "C:\\tools\\msys64\\usr\\bin" >> $env:GITHUB_PATH
-            # Install LAPACK and BLAS
-            pacman -Syu --noconfirm
-            pacman -S --noconfirm mingw-w64-x86_64-lapack mingw-w64-x86_64-blas
+          # Install MSYS2
+          choco install msys2 --params '/NoShortcuts' -y
+          # Add MSYS2 to PATH
+          echo "C:\\tools\\msys64\\usr\\bin" >> $env:GITHUB_PATH
+          echo "C:\\tools\\msys64\\mingw64\\bin" >> $env:GITHUB_PATH
+          # Install LAPACK and BLAS
+          msys2_shell.cmd -c "pacman -Syu --noconfirm && pacman -S --noconfirm mingw-w64-x86_64-lapack mingw-w64-x86_64-blas"     # Add MSYS2 to PATH
 
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
