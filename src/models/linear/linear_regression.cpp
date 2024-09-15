@@ -9,7 +9,7 @@
 #include <xtensor/xadapt.hpp>
 
 namespace xtensor_ml{
-namespace linear_model{
+namespace linear_models{
 LinearRegression::LinearRegression(bool fit_intercept)
         : is_fit_(false), fit_intercept_(fit_intercept){}
 
@@ -51,5 +51,5 @@ xt::xarray<double> LinearRegression::update_(const xt::xarray<double>& X) const 
 xt::xarray<double> LinearRegression::get_beta() const {
        return beta_;
    }
-} // namespace linear_model
+} // namespace linear_models
 } // namespace xtensor_ml

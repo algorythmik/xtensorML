@@ -11,7 +11,7 @@ int main() {
                            {6.0, 7.0},
                            {8.0, 8.0}};
     xt::xarray<double> y = {4.0, 6.0, 10.0, 14.0, 17.0};
-    auto model = xtensor_ml::linear_model::LinearRegression(true);
+    auto model = xtensor_ml::linear_models::LinearRegression(true);
     model.fit(X, y);
     xt::xarray<double> X_new = {{3.0, 4.0}, {6.0, 7.0}};
     auto y_pred = model.predict(X_new);
