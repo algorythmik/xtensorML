@@ -4,7 +4,6 @@
 #include <xtensor/xarray.hpp>
 namespace xtensor_ml{
 namespace linear_models{
-} // end of linear_modles namespace
 enum class Penalty{
     l1,
     l2
@@ -26,6 +25,7 @@ class LogisticRegression {
         double gamma_;
         bool fit_intercept_;
         Penalty penalty_;
+        bool is_fit_;
 
         double NLL_(
                 const xt::xarray<double>& y,
@@ -41,5 +41,5 @@ class LogisticRegression {
 
 
 };
-
+} // end of linear_modles namespace
 } // end of xtensor_ml
