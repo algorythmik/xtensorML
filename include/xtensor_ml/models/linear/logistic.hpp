@@ -4,6 +4,7 @@
 #include <xtensor/xarray.hpp>
 namespace xtensor_ml{
 namespace linear_models{
+
 class LogisticRegressionTest;
 
 enum class Penalty{
@@ -29,7 +30,8 @@ class LogisticRegression {
         Penalty penalty_;
         bool is_fit_;
 
-        friend LogisticRegressionTest;
+        friend class LogisticRegressionTest_SigmoidTest_Test;
+        friend class LogisticRegressionTest_NLLTest_Test;
 
         double NLL_(
                 const xt::xarray<double>& y,
