@@ -32,6 +32,7 @@ class LogisticRegression {
         bool fit_intercept_;
         Penalty penalty_;
         bool is_fit_;
+        xt::xarray<double> beta_;
 
         friend class LogisticRegressionTest_SigmoidTest_Test;
         friend class LogisticRegressionTest_NLLTest_Test;
@@ -49,7 +50,6 @@ class LogisticRegression {
                 const xt::xarray<double>& z);
 
         xt::xarray<double> update_(const xt::xarray<double>& X) const;
-
 
 };
 } // end of linear_modles namespace

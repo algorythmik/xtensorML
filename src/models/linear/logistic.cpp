@@ -20,22 +20,37 @@ LogisticRegression& LogisticRegression::fit(
         double tol,
         size_t max_iter){
     auto X_ = update_(X);
+    std::cout<<X_<<std::endl;
     auto prev_loss = std::numeric_limits<double>::infinity();
     size_t num_features = X_.shape()[1];
-    xt::xarray<double> beta = xt::random::randn<double>({num_features});
+    std::cout<<double(num_features)<<std::endl;
+    beta_ = xt::random::randn<double>({num_features});
+    std::cout<<"shape of beta_: "<<beta_.shape()[0]<<", "<<beta_.shape()[1]<<std::endl;
 
     for (size_t i = 0; i <= max_iter; i++){
-        auto logit = xt::linalg::dot(X, beta);
+        auto logit = xt::linalg::dot(X_, beta_);
         auto y_pred = sigmoid_(logit);
         double loss = NLL_(y, y_pred);
         if (prev_loss - loss < tol)
             break;
-        beta = beta -lr* NLL_grad_(X, y, y_pred);
+        beta_ = beta_ -lr* NLL_grad_(X_, y, y_pred);
 
 
     }
 
+    std::cout<<"shape of beta_: "<<beta_.shape()[0]<<", "<<beta_.shape()[1]<<std::endl;
+
     return *this;
+}
+
+xt::xarray<double> LogisticRegression::get_coefs() const{
+
+    return beta_;
+}
+
+xt::xarray<double> LogisticRegression::predict(const xt::xarray<double>& X) const {
+    auto X_ = update_(X);
+    return sigmoid_(xt::linalg::dot(X_, beta_));
 }
 // sigmoid function
 xt::xarray<double> LogisticRegression::sigmoid_(const xt::xarray<double>& z){
