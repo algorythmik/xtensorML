@@ -23,22 +23,22 @@ TEST(LogisticRegressionTest, SigmoidTest) {
 }
 
 // Test for Negative Log-Likelihood (NLL)
-// TEST(LogisticRegressionTest, NLLTest) {
-//     // Define a small dataset
-//     xt::xarray<double> y = {0.0, 1.0, 1.0};          // Actual class labels
-//     xt::xarray<double> y_pred = {0.1, 0.9, 0.8};     // Predicted probabilities
-//
-//     // Create a LogisticRegression object
-//     LogisticRegression model(0.1, Penalty::l2);
-//
-//     // Calculate NLL manually for comparison
-//     double expected_nll = -(xt::sum(y * xt::log(y_pred) + (1.0 - y) * xt::log(1.0 - y_pred)))();
-//
-//     // Call NLL_ method of the LogisticRegression class
-//     double actual_nll = model.NLL_(y, y_pred);
-//
-//     EXPECT_NEAR(actual_nll, expected_nll, 1e-6);
-// }
+TEST(LogisticRegressionTest, NLLTest) {
+    // Define a small dataset
+    xt::xarray<double> y = {0.0, 1.0, 1.0};          // Actual class labels
+    xt::xarray<double> y_pred = {0.1, 0.9, 0.8};     // Predicted probabilities
+
+    // Create a LogisticRegression object
+    LogisticRegression model(0.1, Penalty::l2);
+
+    // Calculate NLL manually for comparison
+    double expected_nll = -(xt::sum(y * xt::log(y_pred) + (1.0 - y) * xt::log(1.0 - y_pred)))();
+
+    // Call NLL_ method of the LogisticRegression class
+    double actual_nll = model.NLL_(y, y_pred);
+
+    EXPECT_NEAR(actual_nll, expected_nll, 1e-6);
+}
 
 }
 }

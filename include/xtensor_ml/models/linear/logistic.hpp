@@ -18,7 +18,10 @@ class LogisticRegression {
 
         LogisticRegression& fit(
             const xt::xarray<double>& X,
-            const xt::xarray<double>& y
+            const xt::xarray<double>& y,
+            double lr=0.01,
+            double tol=1e-7,
+            size_t max_iter=1e7
         );
 
         xt::xarray<double> predict(const xt::xarray<double>& X) const;
@@ -44,6 +47,8 @@ class LogisticRegression {
         ) const;
         static xt::xarray<double> sigmoid_(
                 const xt::xarray<double>& z);
+
+        xt::xarray<double> update_(const xt::xarray<double>& X) const;
 
 
 };
