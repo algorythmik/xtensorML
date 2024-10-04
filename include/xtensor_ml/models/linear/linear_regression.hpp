@@ -4,7 +4,7 @@
 #include <xtensor/xarray.hpp>
 
 namespace xtensor_ml {
-namespace linear_model {
+namespace linear_models {
 class LinearRegression {
     public:
         // constructor

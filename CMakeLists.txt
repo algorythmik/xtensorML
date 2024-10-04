@@ -7,6 +7,12 @@ project(xtensor_ml)
 include(FetchContent)
 
 FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        release-1.12.1  # or latest stable version
+)
+FetchContent_MakeAvailable(googletest)
+FetchContent_Declare(
     xtl
     GIT_REPOSITORY https://github.com/xtensor-stack/xtl.git
     GIT_TAG 0.7.5  # Use a specific tag or version for stability
@@ -37,9 +43,9 @@ find_package(LAPACK REQUIRED)
 add_library(xtensor_ml
     src/core.cpp
     src/models/linear/linear_regression.cpp
+    src/models/linear/logistic.cpp
     src/matrix.cpp
 )
-message(" source dir ${CMAKE_SOURCE_DIR}")
 # Include directories for xtensor_ml
 target_include_directories(
     xtensor_ml
@@ -62,3 +68,25 @@ add_executable(example
 )
 
 target_link_libraries(example xtensor_ml)
+
+# GoogleTest setup (removed unnecessary find_package)
+FetchContent_MakeAvailable(googletest)
+include(GoogleTest)
+
+# Collect all test files ending with "_test.cpp"
+file(GLOB_RECURSE TEST_SOURCES tests/*_test.cpp)
+
+# Add the test executable
+add_executable(run_tests ${TEST_SOURCES})
+
+# Link the test executable with GoogleTest, pthread, and xtensor_ml
+target_link_libraries(run_tests xtensor_ml gtest gtest_main pthread)
+
+# Include test directory if necessary
+target_include_directories(run_tests PUBLIC ${CMAKE_SOURCE_DIR}/tests)
+
+# Enable testing with CTest
+enable_testing()
+
+# Register tests
+gtest_discover_tests(run_tests)
