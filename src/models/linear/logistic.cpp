@@ -1,5 +1,6 @@
 #include "xtensor_ml/models/linear/logistic.hpp"
 #include <xtensor/xarray.hpp>
+#include <xtensor/xmath.hpp>
 
 namespace xtensor_ml {
 namespace linear_models {
@@ -11,13 +12,13 @@ LogisticRegression::LogisticRegression(
 
 // sigmoid function
 xt::xarray<double> LogisticRegression::sigmoid_(const xt::xarray<double>& z){
-    return 1.0 / (1 + xt::exp(-z));
+    return 1.0 /  (1 + xt::exp(-z));
 }
 
 // Negative log likelihood
-double NLL_(
+double LogisticRegression::NLL_(
         const xt::xarray<double>& y,
-        const xt::xarray<double>& y_pred)
+        const xt::xarray<double>& y_pred) const
     {
     auto log_y_pred = xt::log(y_pred);
     auto log_1_minus_y_pred = xt::log(1 - y_pred);

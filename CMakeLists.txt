@@ -43,6 +43,7 @@ find_package(LAPACK REQUIRED)
 add_library(xtensor_ml
     src/core.cpp
     src/models/linear/linear_regression.cpp
+    src/models/linear/logistic.cpp
     src/matrix.cpp
 )
 # Include directories for xtensor_ml
