@@ -23,9 +23,7 @@ LogisticRegression& LogisticRegression::fit(
     std::cout<<X_<<std::endl;
     auto prev_loss = std::numeric_limits<double>::infinity();
     size_t num_features = X_.shape()[1];
-    std::cout<<double(num_features)<<std::endl;
     beta_ = xt::random::randn<double>({num_features});
-    std::cout<<"shape of beta_: "<<beta_.shape()[0]<<", "<<beta_.shape()[1]<<std::endl;
 
     for (size_t i = 0; i <= max_iter; i++){
         auto logit = xt::linalg::dot(X_, beta_);
@@ -38,7 +36,6 @@ LogisticRegression& LogisticRegression::fit(
 
     }
 
-    std::cout<<"shape of beta_: "<<beta_.shape()[0]<<", "<<beta_.shape()[1]<<std::endl;
 
     return *this;
 }
