@@ -10,6 +10,7 @@ namespace trees {
 
 // DecisionTree& fit(const xarray<double> &X, const xarray<double>& y){
 // };
+
 double entropy(const xarray<int>& y){
     std::cout<<"y: "<<y<<std::endl;
     xarray<double> bin_count = xt::bincount(y);
