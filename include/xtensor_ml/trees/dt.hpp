@@ -11,7 +11,7 @@ class Leaf {
 
 public:
   xarray<double> value;
-  Leaf(xarray<double> &value_) : value(value_){};
+  Leaf(xarray<double> &value_) : value(value_) {};
 };
 class Node {
 public:
@@ -24,13 +24,13 @@ public:
        const std::shared_ptr<Node> right_child, size_t feature,
        double threshold)
       : left(left_child), right(right_child), feature(feature),
-        threshold(threshold){};
+        threshold(threshold) {};
 };
 
 // for now classifier is always is assumed to be true,
 class DecisionTree {
 public:
-  DecisionTree(bool classifier, int max_depth) : max_depth(max_depth){};
+  DecisionTree(bool classifier, int max_depth) : max_depth(max_depth) {};
   DecisionTree &fit(const xarray<double> &X, const xarray<double> &y);
   xarray<double> predict(const xarray<double> &X);
 
@@ -40,5 +40,6 @@ private:
 };
 
 double entropy(const xarray<int> &y);
+double gini(const xarray<int> &y);
 } // namespace trees
 } // namespace xtensor_ml
