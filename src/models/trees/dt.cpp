@@ -47,9 +47,10 @@ std::shared_ptr<Node> DecisionTree::Grow(const xarray<double> &X,
   return std::make_shared<Node>(left, right, best_feat, best_thresh);
 };
 
-std::pair<size_t, double> Segment(const xarray<double> &X, const xarray<int> &y,
-                                  const xarray<size_t> &feat_idxs) {
-  double best_gain = std::numeric_limits<double>::infinity();
+std::pair<size_t, double>
+DecisionTree::Segment(const xarray<double> &X, const xarray<int> &y,
+                      const xarray<size_t> &feat_idxs) {
+  double best_gain = -std::numeric_limits<double>::infinity();
   int best_feat = -1;
   double best_thresh = 0.0;
 
@@ -59,11 +60,45 @@ std::pair<size_t, double> Segment(const xarray<double> &X, const xarray<int> &y,
     xarray<double> thresholds =
         (xt::view(levels, xt::range(0, -1))) +
         xt::view(levels, xt::range(1, levels.size() + 1)) / 2.0;
+
+    for (auto &threshold : thresholds) {
+      double gain = ImpurityGain(y, threshold, vals);
+      if (gain > best_gain) {
+        best_gain = gain;
+        best_feat = feat_idx;
+        best_thresh = threshold;
+      }
+    }
   }
-  for (double tr : thresholds) {
-  }
+  return {best_feat, best_thresh};
 };
 
+double DecisionTree::ImpurityGain(const xarray<double> &y, double split_thresh,
+                                  const xarray<double> &feat_values) {
+  auto left = xt::where(feat_values <= split_thresh);
+  auto right = xt::where(feat_values > split_thresh);
+  if (left.size() == 0 || right.size() == 0)
+    return 0.0;
+
+  double n = y.size();
+  double n_left = left.size();
+  double n_right = right.size();
+
+  double imp_left = Impurity(xt::index_view(y, left));
+  double imp_right = Impurity(xt::index_view(y, right));
+  double child_imp = (n_left * imp_left) / n + (n_right * imp_right) / n;
+  double parent_imp = Impurity(y);
+  return parent_imp - child_imp;
+};
+
+double DecisionTree::Impurity(const xt::xarray<int>& y) {
+  if (criterion_ == Criterion::gini) {
+    return Gini(y);
+  } else if (criterion_ == Criterion::entropy) {
+    return Entropy(y);
+  }
+  return 0.0;
+}
 double Entropy(const xarray<int> &y) {
   xarray<double> bin_count = xt::bincount(y);
   xarray<double> total = xt::sum(bin_count);

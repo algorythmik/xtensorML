@@ -52,10 +52,11 @@ private:
   std::shared_ptr<Node> Grow(const xarray<double> &X, const xarray<int> &y,
                              size_t cur_depth);
   /// Finds the best feature and trheshold to split the data
-  std::pair<size_t, double>
-  Segment(const xarray<double> &X, const xarray<int> &y, const xarray<size_t>   &feat_id);
+  std::pair<size_t, double> Segment(const xarray<double> &X,
+                                    const xarray<int> &y,
+                                    const xarray<size_t> &feat_id);
   /// Calculates the impurity gain of a split
-  double ImputiryGain(const xarray<double> &y, double split_thresh,
+  double ImpurityGain(const xarray<double> &y, double split_thresh,
                       const xarray<double> &feat_values);
   double Impurity(const xarray<int> &y);
   int Traverse(const xarray<double> &X, const std::shared_ptr<Node> &node);
