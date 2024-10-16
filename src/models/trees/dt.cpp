@@ -1,10 +1,10 @@
-// #include "xtensor_ml/trees/dt.hpp"
 #include "xtensor_ml/trees/dt.hpp"
 #include "xtensor/xhistogram.hpp"
 #include "xtensor/xio.hpp"
 #include "xtensor/xmath.hpp"
 #include "xtensor/xoperation.hpp"
 #include "xtensor/xrandom.hpp"
+#include "xtensor/xslice.hpp"
 #include "xtensor/xsort.hpp"
 #include "xtensor/xtensor.hpp"
 #include "xtensor/xtensor_forward.hpp"
@@ -34,16 +34,17 @@ std::shared_ptr<Node> DecisionTree::Grow(const xarray<double> &X,
   }
   cur_depth++;
   depth_ = std::max(cur_depth, depth_);
-  xarray<size_t> feat_idxs =
-      xt::random::choice(xt::arange<size_t>(X.shape(1)), X.shape(1), false)();
+  auto range = xt::xarray<size_t>::from_shape({X.shape(1)});
+  std::iota(range.begin(), range.end(), 0); // Fill wi
+  xarray<size_t> feat_idxs = xt::random::choice(range, X.shape(1), false)();
   auto result = Segment(X, y, feat_idxs);
   size_t best_feat = result.first;
   double best_thresh = result.second;
   auto feat_values = xt::view(X, xt::all(), best_feat);
   auto left_idx = xt::flatten_indices(xt::where(feat_values <= best_thresh));
   auto right_idx = xt::flatten_indices(xt::where(feat_values > best_thresh));
-  auto left = Grow(xt::view(X, left_idx), xt::view(y, left_idx), cur_depth);
-  auto right = Grow(xt::view(X, right_idx), xt::view(y, right_idx), cur_depth);
+  auto left = Grow(xt::view(X, xt::keep(left_idx)), xt::view(y, xt::keep(left_idx)), cur_depth);
+  auto right = Grow(xt::view(X, xt::keep(right_idx)), xt::view(y, xt::keep(right_idx)), cur_depth);
   return std::make_shared<Node>(left, right, best_feat, best_thresh);
 };
 
@@ -91,7 +92,7 @@ double DecisionTree::ImpurityGain(const xarray<double> &y, double split_thresh,
   return parent_imp - child_imp;
 };
 
-double DecisionTree::Impurity(const xt::xarray<int>& y) {
+double DecisionTree::Impurity(const xt::xarray<int> &y) {
   if (criterion_ == Criterion::gini) {
     return Gini(y);
   } else if (criterion_ == Criterion::entropy) {

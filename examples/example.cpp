@@ -24,13 +24,13 @@ int main() {
   // std::endl;
   //
   xt::xarray<int> labels = {1, 1, 1, 1};
-  double result = xtensor_ml::trees::entropy(labels);
+  double result = xtensor_ml::trees::Entropy(labels);
   std::cout << "entropy for the uniform distribution: " << result << std::endl;
   labels = {1, 1, 0, 0};
-  result = xtensor_ml::trees::entropy(labels);
+  result = xtensor_ml::trees::Entropy(labels);
   std::cout << "entropy for the non uniform distribution: " << result
             << std::endl;
-  result = xtensor_ml::trees::gini(labels);
+  result = xtensor_ml::trees::Gini(labels);
   std::cout << "entropy for the non uniform distribution: " << result
             << std::endl;
 
