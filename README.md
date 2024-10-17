@@ -19,34 +19,17 @@ It is inspired by [numpy-ml](https://github.com/ddbourgin/numpy-ml)
 - Linear Regression
 - Logistic Regression
 
-## Installation:
-
-To use `xtensorML`, ensure you have the following dependencies installed:
-
-- `xtensor`
-- `xtl`
-- `xtensor-blas`
-- A BLAS backend (e.g., OpenBLAS or MKL)
-
-```bash
-git clone https://github.com/yourrepo/xtensorML.git
-cd xtensorML
-mkdir build && cd build
-cmake ..
-make
-```
-
 # Usage
 
 Here’s a quick example of how to use the Decision Tree classifier:
 
-```
+```C
 #include "xtensor_ml/trees/dt.hpp"
 
 xt::xarray<double> X = {{2.3, 1.9}, {1.5, 2.6}, {3.1, 2.9}};
 xt::xarray<int> y = {0, 1, 0};
 
-xtensor_ml::trees::DecisionTree clf;
-clf.fit(X, y);
-auto predictions = clf.predict(X);
+xtensor_ml::trees::DecisionTree tree;
+tree.fit(X, y);
+auto predictions = tree.predict(X);
 ```
