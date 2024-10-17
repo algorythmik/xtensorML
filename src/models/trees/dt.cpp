@@ -1,4 +1,5 @@
 #include "xtensor_ml/trees/dt.hpp"
+#include "xtensor/xbuilder.hpp"
 #include "xtensor/xhistogram.hpp"
 #include "xtensor/xio.hpp"
 #include "xtensor/xmath.hpp"
@@ -19,6 +20,14 @@ namespace trees {
 DecisionTree::DecisionTree(int max_depth, Criterion criterion)
     : max_depth_(max_depth), criterion_(criterion), root_(nullptr),
       depth_(0) {};
+xarray<double> DecisionTree::predict(const xarray<double> &X) const {
+  xarray<double> predictions = xt::zeros<int>({X.shape(0)});
+  for (size_t i = 0; i < X.shape(0); i++) {
+    predictions(i) = Traverse(xt::row(X, i), root_);
+  }
+  return predictions;
+}
+
 DecisionTree &DecisionTree::fit(const xarray<double> &X,
                                 const xarray<double> &y) {
   root_ = Grow(X, y, 0);
@@ -43,8 +52,10 @@ std::shared_ptr<Node> DecisionTree::Grow(const xarray<double> &X,
   auto feat_values = xt::view(X, xt::all(), best_feat);
   auto left_idx = xt::flatten_indices(xt::where(feat_values <= best_thresh));
   auto right_idx = xt::flatten_indices(xt::where(feat_values > best_thresh));
-  auto left = Grow(xt::view(X, xt::keep(left_idx)), xt::view(y, xt::keep(left_idx)), cur_depth);
-  auto right = Grow(xt::view(X, xt::keep(right_idx)), xt::view(y, xt::keep(right_idx)), cur_depth);
+  auto left = Grow(xt::view(X, xt::keep(left_idx)),
+                   xt::view(y, xt::keep(left_idx)), cur_depth);
+  auto right = Grow(xt::view(X, xt::keep(right_idx)),
+                    xt::view(y, xt::keep(right_idx)), cur_depth);
   return std::make_shared<Node>(left, right, best_feat, best_thresh);
 };
 
@@ -99,7 +110,21 @@ double DecisionTree::Impurity(const xt::xarray<int> &y) {
     return Entropy(y);
   }
   return 0.0;
-}
+};
+
+int DecisionTree::Traverse(const xarray<double> &sample,
+                           const std::shared_ptr<Node> &node) const {
+  if (auto leaf = std::dynamic_pointer_cast<Leaf>(node)) {
+    auto proba = leaf->value;
+    return static_cast<int>(xt::argmax(proba)());
+  }
+  if (sample(node->feature) <= node->threshold) {
+    return Traverse(sample, node->left);
+  } else {
+    return Traverse(sample, node->right);
+  }
+};
+
 double Entropy(const xarray<int> &y) {
   xarray<double> bin_count = xt::bincount(y);
   xarray<double> total = xt::sum(bin_count);
@@ -107,13 +132,14 @@ double Entropy(const xarray<int> &y) {
   auto log_probs = proba * xt::log2(proba);
   auto values = xt::where(proba > 0, -proba * log_probs, 0);
   return xt::sum(values)();
-}
+};
+
 double Gini(const xarray<int> &y) {
   // Gini impurity measure
   xarray<double> bin_count = xt::bincount(y);
   xarray<double> total = xt::sum(bin_count);
   xarray<double> proba = bin_count / total;
   return 1.0 - xt::sum(xt::square(proba))();
-}
+};
 } // namespace trees
 } // namespace xtensor_ml

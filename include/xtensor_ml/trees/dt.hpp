@@ -19,15 +19,16 @@ public:
        const std::shared_ptr<Node> right_child, size_t feature,
        double threshold)
       : left(left_child), right(right_child), feature(feature),
-        threshold(threshold) {};
+        threshold(threshold){};
+  virtual ~Node() = default;
 };
 
 class Leaf : public Node {
 
 public:
   xarray<double> value;
-  explicit Leaf(xarray<double> &value_)
-      : Node(nullptr, nullptr, -1, 0), value(value_) {};
+  explicit Leaf(xarray<double> &value)
+      : Node(nullptr, nullptr, -1, 0), value(value){};
 };
 enum class Criterion {
   gini,
@@ -40,7 +41,7 @@ public:
   explicit DecisionTree(int max_depth = 100,
                         Criterion criterion = Criterion::gini);
   DecisionTree &fit(const xarray<double> &X, const xarray<double> &y);
-  xarray<double> predict(const xarray<double> &X);
+  xarray<double> predict(const xarray<double> &X) const;
 
 private:
   std::shared_ptr<Node> root_;
@@ -59,7 +60,8 @@ private:
   double ImpurityGain(const xarray<double> &y, double split_thresh,
                       const xarray<double> &feat_values);
   double Impurity(const xarray<int> &y);
-  int Traverse(const xarray<double> &X, const std::shared_ptr<Node> &node);
+  int Traverse(const xarray<double> &X,
+               const std::shared_ptr<Node> &node) const;
 };
 
 double Entropy(const xarray<int> &y);
