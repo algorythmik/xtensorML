@@ -5,8 +5,8 @@ It aims to provide minimalistic implementations of core ML algorithms using [`xt
 
 # Goal
 
-The goal of xtensorML is to provide straightforward implementations of machine learning algorithms that are easy to read and understand. Each algorithm is implemented in just one .cpp and one .hpp file, making it easy to follow and modify the code for learning or experimentation.
-It is inspired by [numpy-ml](https://github.com/ddbourgin/numpy-ml)
+The goal of xtensorML is to provide straightforward implementations of machine learning algorithms that are easy to read and understand. Each algorithm is implemented in just one .cpp and one .hpp file, making it easy to read and understand.
+It is inspired by [numpy-ml](https://github.com/ddbourgin/numpy-ml).
 
 ## Key Features:
 
