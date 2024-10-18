@@ -17,7 +17,7 @@ LinearRegression& LinearRegression::fit(
     const xt::xarray<double>& X,
     const xt::xarray<double>& y
    )
-    {
+   {
         auto X_ = LinearRegression::update_(X);
         auto X_t = xt::transpose(X_);
         auto sigma_inv = xt::linalg::pinv(xt::linalg::dot(X_t, X_));
