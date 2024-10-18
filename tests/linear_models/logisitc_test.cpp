@@ -18,7 +18,6 @@ TEST(LogisticRegressionTest, SigmoidTest) {
 
     xt::xarray<double> actual = LogisticRegression::sigmoid_(z);
 
-    // Use a small tolerance because sigmoid will return floating-point numbers
     EXPECT_TRUE(xt::allclose(actual, expected, 1e-6, 1e-6));
 }
 
