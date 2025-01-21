@@ -23,27 +23,26 @@ LinearRegression &LinearRegression::fit(const xt::xarray<double> &X,
   beta_ = xt::linalg::dot(sigma_inv, XTy);
   is_fit_ = true;
   return *this;
-}
 
-xt::xarray<double>
-LinearRegression::predict(const xt::xarray<double> &X) const {
-  if (!is_fit_)
-    throw std::runtime_error("Model must be fitted before prediction");
+  xt::xarray<double> LinearRegression::predict(const xt::xarray<double> &X)
+      const {
+    if (!is_fit_)
+      throw std::runtime_error("Model must be fitted before prediction");
 
-  auto X_ = LinearRegression::update_(X);
-  return xt::linalg::dot(X_, beta_);
-}
-
-xt::xarray<double>
-LinearRegression::update_(const xt::xarray<double> &X) const {
-  if (fit_intercept_) {
-    int N = (int)X.shape()[0];
-    auto ones = xt::ones<double>({N, 1});
-    return xt::concatenate(xt::xtuple(ones, X), 1);
-  } else {
-    return X;
+    auto X_ = LinearRegression::update_(X);
+    return xt::linalg::dot(X_, beta_);
   }
-}
-xt::xarray<double> LinearRegression::get_beta() const { return beta_; }
+
+  xt::xarray<double> LinearRegression::update_(const xt::xarray<double> &X)
+      const {
+    if (fit_intercept_) {
+      int N = (int)X.shape()[0];
+      auto ones = xt::ones<double>({N, 1});
+      return xt::concatenate(xt::xtuple(ones, X), 1);
+    } else {
+      return X;
+    }
+  }
+  xt::xarray<double> LinearRegression::get_beta() const { return beta_; }
 } // namespace linear_models
 } // namespace xtensor_ml
